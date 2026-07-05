@@ -34,6 +34,7 @@ const initialForm: FormState = {
 export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) {
 	const [form, setForm] = useState<FormState>(initialForm);
 	const [submitted, setSubmitted] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState("");
 
 	const setF = (key: keyof FormState) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -42,26 +43,43 @@ export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) 
 		setError("");
 	};
 
-	const submit = () => {
+	const submit = async () => {
 		const missing: string[] = [];
 		if (!form.ownerName.trim()) missing.push("owner name");
 		if (!form.whatsapp.trim()) missing.push("WhatsApp number");
-		if (!form.email.trim()) missing.push("email");
 		if (!form.shopName.trim()) missing.push("shop name");
-		if (!form.photo) missing.push("shop photo");
 		if (!form.address.trim()) missing.push("address");
-		if (!form.mapsLink.trim()) missing.push("Google Maps link");
-		if (form.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) {
-			setError("Please enter a valid email address.");
-			return;
-		}
 		if (missing.length) {
 			setError("Please fill in: " + missing.join(", ") + ".");
 			return;
 		}
-		setSubmitted(true);
+
+		setSubmitting(true);
 		setError("");
-		window.scrollTo({ top: 0, behavior: "auto" });
+
+		const body = new URLSearchParams({
+			form: "ClickPrint Registration Form",
+			ownerName: form.ownerName.trim(),
+			shopName: form.shopName.trim(),
+			whatsapp: form.whatsapp.trim(),
+			address: form.address.trim(),
+		});
+
+		try {
+			const res = await fetch("https://contactform.wckdpk.workers.dev", {
+				method: "POST",
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: body.toString(),
+			});
+			if (!res.ok) throw new Error("Request failed");
+			setSubmitted(true);
+			setError("");
+			window.scrollTo({ top: 0, behavior: "auto" });
+		} catch {
+			setError("Something went wrong submitting your registration. Please try again.");
+		} finally {
+			setSubmitting(false);
+		}
 	};
 
 	const ownerFirst = form.ownerName.trim().split(/\s+/)[0] || "there";
@@ -172,9 +190,10 @@ export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) 
 
 								<button
 									onClick={submit}
-									className="cp-btn-primary mt-6.5 w-full border-none cursor-pointer font-manrope font-extrabold text-[16.5px] text-white bg-coral p-4.25 rounded-[14px] shadow-[0_12px_30px_rgba(255,139,123,.35)]"
+									disabled={submitting}
+									className="cp-btn-primary mt-6.5 w-full border-none cursor-pointer font-manrope font-extrabold text-[16.5px] text-white bg-coral p-4.25 rounded-[14px] shadow-[0_12px_30px_rgba(255,139,123,.35)] disabled:opacity-60 disabled:cursor-not-allowed"
 								>
-									Submit registration
+									{submitting ? "Submitting…" : "Submit registration"}
 								</button>
 								<div className="text-center text-[12.5px] text-muted mt-3.5">
 									By submitting you agree to our terms and services. We&apos;ll contact you soon.
