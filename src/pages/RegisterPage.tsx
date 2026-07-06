@@ -9,26 +9,16 @@ interface RegisterPageProps {
 
 interface FormState {
 	ownerName: string;
-	code: string;
-	whatsapp: string;
-	secondary: string;
-	email: string;
 	shopName: string;
+	whatsapp: string;
 	address: string;
-	mapsLink: string;
-	photo: string;
 }
 
 const initialForm: FormState = {
 	ownerName: "",
-	code: "+92",
-	whatsapp: "",
-	secondary: "",
-	email: "",
 	shopName: "",
+	whatsapp: "",
 	address: "",
-	mapsLink: "",
-	photo: "",
 };
 
 export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) {
@@ -43,6 +33,31 @@ export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) 
 		setError("");
 	};
 
+	const validateOwnerName = (name: string)=> {
+		name.trim();
+		if(name.length <= 3 || !name.match("^[A-Za-z ]+$")) return false;
+		return true;
+	}
+	
+	const validateShopName = (name: string)=> {
+		name.trim();
+		if(name.length <= 3 || !name.match("^[A-Za-z0-9 ]+$")) return false;
+		return true;
+	}
+
+	const validateAddress = (address : string) => {
+		address.trim();
+		if(address.length < 10) return false;
+		return true;
+	}
+
+	const validateWhatsapp = (whatsapp : string) => {
+		whatsapp.trim();
+		if(whatsapp.length === 11 && whatsapp.match('^03[0-9]{9}$')) return true;
+		if(whatsapp.length === 12 && whatsapp.match('^923[0-9]{9}$')) return true;
+		return false;
+	}
+
 	const submit = async () => {
 		const missing: string[] = [];
 		if (!form.ownerName.trim()) missing.push("owner name");
@@ -51,6 +66,23 @@ export default function RegisterPage({ onHome, onRegister }: RegisterPageProps) 
 		if (!form.address.trim()) missing.push("address");
 		if (missing.length) {
 			setError("Please fill in: " + missing.join(", ") + ".");
+			return;
+		}
+
+		if (!validateOwnerName(form.ownerName)) {
+			setError("Owner name - Only letters & spaces and must be at least 4 characters long.");
+			return;
+		}
+		if (!validateShopName(form.shopName)) {
+			setError("Shop name - Only letters, numbers & spaces and must be at least 4 characters long.");
+			return;
+		}
+		if (!validateWhatsapp(form.whatsapp)) {
+			setError("Enter a valid whatsapp number, either of this format (03XXXXXXXXX or 923XXXXXXXXX)");
+			return;
+		}
+		if (!validateAddress(form.address)) {
+			setError("Address must be at least 10 characters long.");
 			return;
 		}
 
