@@ -41,9 +41,9 @@ export default function Footer({ onRegister }: FooterProps) {
           <div>
             <div className="font-sora font-bold text-[13px] text-white/50 uppercase tracking-[.5px] mb-4">Get in touch</div>
             <div className="flex flex-col gap-3 text-[14.5px] text-white/75">
-              <a href="https://wa.me/923235400291">WhatsApp: +92 323 5400291</a>
-              <a href="mailto:support@wecode.com.pk">support@wecode.com.pk</a>
-              <a href="https://wecode.com.pk/contact">Contact Us</a>
+              <a href="https://wa.me/923235400291" target='_blank'>WhatsApp: +92 323 5400291</a>
+              <a href="mailto:support@wecode.com.pk" target='_blank'>support@wecode.com.pk</a>
+              <a href="https://wecode.com.pk/contact" target='_blank'>Contact Us</a>
             </div>
           </div>
         </div>
