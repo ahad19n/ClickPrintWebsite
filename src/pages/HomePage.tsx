@@ -10,7 +10,7 @@ function DownloadButton({ label, openUp = false }: { label: string; openUp?: boo
 	return (
 		<div className="relative group">
 			<a
-				href="/Click%20Print%20Desktop%20Installer.exe"
+				href="https://github.com/WeCodePK/ClickPrintDesktop/releases/download/builds/Click.Print.Desktop.Installer.exe"
 				download
 				className="cp-btn-primary inline-flex items-center gap-2 cursor-pointer font-manrope font-bold text-[15px] sm:text-base text-white bg-blue px-5 sm:px-6.5 py-3.5 sm:py-4 rounded-[14px] shadow-[0_8px_22px_rgba(59,158,255,.32)]"
 			>
@@ -33,7 +33,7 @@ function DownloadButton({ label, openUp = false }: { label: string; openUp?: boo
 			>
 				<div className="bg-white border-[1.5px] border-line rounded-[14px] shadow-[0_16px_40px_rgba(18,35,63,.14)] overflow-hidden text-left">
 					<a
-						href="/Click%20Print%20Desktop%20Installer.exe"
+						href="https://github.com/WeCodePK/ClickPrintDesktop/releases/download/builds/Click.Print.Desktop.Installer.exe"
 						download
 						className="flex items-center gap-3 px-4.5 py-3.5 transition-colors hover:bg-[rgba(59,158,255,.08)]"
 					>
@@ -44,7 +44,7 @@ function DownloadButton({ label, openUp = false }: { label: string; openUp?: boo
 						</span>
 					</a>
 					<a
-						href="/Click%20Print%20Desktop%20Portable.exe"
+						href="https://github.com/WeCodePK/ClickPrintDesktop/releases/download/builds/Click.Print.Desktop.Portable.exe"
 						download
 						className="flex items-center gap-3 px-4.5 py-3.5 border-t border-line/70 transition-colors hover:bg-[rgba(59,158,255,.08)]"
 					>
